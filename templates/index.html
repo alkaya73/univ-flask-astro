@@ -1,9 +1,11 @@
-{% extends "body.html" %} 
+{% extends "body.html" %}
 
 {% block title %}Accueil - Astronomia{% endblock %}
 
 {% block content %}
+    <div class="text-center">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Astronomia" width="300" class="rounded-image">
+    </div>
     <h1 class="text-center text-primary">Bienvenue sur Astronomia</h1>
     <p class="text-center text-muted">Explorez l'univers fascinant à travers l'astronomie et ses merveilles !</p>
 {% endblock %}
-
