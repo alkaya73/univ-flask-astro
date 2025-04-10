@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request 
+from flask import Flask, render_template, request, redirect, url_for, session, abort
+
 
 app = Flask(__name__)
 
@@ -7,15 +8,40 @@ def home():
     """HTML Index page"""
     return render_template('index.html')
 
-@app.route("/inscription")
+@app.route("/inscription", methods=["GET", "POST"])
 def inscription():
-    """HTML inscription page"""
+    """Page d'inscription"""
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        print(f"Nom d'utilisateur : {username}")
+        print(f"Mot de passe : {password}")
+        
     return render_template('inscription.html')
 
-@app.route("/connexion")
+
+
+@app.route("/connexion", methods=["GET", "POST"])
 def connexion():
-    """HTML connexion page"""
-    return render_template('connexion.html')
+    """Page de connexion"""
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        
+        print(f"Tentative de connexion : {username}")
+        
+        if username == "admin" and password == "admin":
+            print(f"Connexion réussie pour {username}")
+            session["username"] = username
+            return redirect(url_for("home"))
+        else:
+            print(f"Échec de la connexion pour {username}")
+            abort(401)  
+
+
+    return render_template("connexion.html")
+
 
 @app.route("/appareils")
 def appareils():
