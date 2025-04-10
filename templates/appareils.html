@@ -1,0 +1,42 @@
+{% extends "body.html" %}
+
+{% block title %}Appareils Photo - Astronomia{% endblock %}
+
+{% block content %}
+    <h2 class="text-center mb-4">Liste des Appareils Photo</h2>
+
+    <table class="table table-bordered table-hover mt-4">
+        <thead class="bg-secondary text-white">
+            <tr>
+                <th>Catégorie</th>
+                <th>Marque</th>
+                <th>Modèle</th>
+                <th>Date de sortie</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Amateur</td>
+                <td>Canon</td>
+                <td>EOS 2000D</td>
+                <td>2018</td>
+                <td>4/5</td>
+            </tr>
+            <tr>
+                <td>Amateur sérieux</td>
+                <td>Nikon</td>
+                <td>D7500</td>
+                <td>2017</td>
+                <td>4.5/5</td>
+            </tr>
+            <tr>
+                <td>Professionnel</td>
+                <td>Sony</td>
+                <td>Alpha 7R IV</td>
+                <td>2019</td>
+                <td>5/5</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
