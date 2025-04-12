@@ -3,8 +3,21 @@
 {% block title %}Inscription - AstroSite{% endblock %}
 
 {% block content %}
-    <h2 class="text-center mb-4">Créer un Compte</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} mt-3" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
     
+    <h2 class="text-center mb-4">Créer un Compte</h2>
+
     <form action="/inscription" method="POST">
      
         <div class="mb-3">

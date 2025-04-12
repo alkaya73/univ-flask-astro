@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, session, abort
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 
 app = Flask(__name__)
+app.secret_key = "key_secret"
+
 
 @app.route("/")
 def home():
@@ -10,37 +12,46 @@ def home():
 
 @app.route("/inscription", methods=["GET", "POST"])
 def inscription():
-    """Page d'inscription"""
     if request.method == "POST":
         username = request.form["username"]
+        email = request.form["email"]
         password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
 
         print(f"Nom d'utilisateur : {username}")
-        print(f"Mot de passe : {password}")
-        
+        print(f"Email : {email}")
+
+        if password == confirm_password:
+            flash("Inscription réussite.", "success")
+            return redirect(url_for("home"))
+        else:
+            flash("Les mots de passe ne correspondent pas.", "danger")
+            return redirect(url_for("inscription"))
+
     return render_template('inscription.html')
 
-
+def get_accounts():
+    with open("comptes.txt", "r") as f:
+        return {line.strip().split(":")[0]: line.strip().split(":")[1] for line in f}
 
 @app.route("/connexion", methods=["GET", "POST"])
 def connexion():
     """Page de connexion"""
     if request.method == "POST":
-        username = request.form["username"]
+        email = request.form["email"]
         password = request.form["password"]
-        
-        print(f"Tentative de connexion : {username}")
-        
-        if username == "admin" and password == "admin":
-            print(f"Connexion réussie pour {username}")
-            session["username"] = username
+        print(f"Tentative de connexion avec {email}.")
+
+        comptes = get_accounts()
+
+        if comptes.get(email) == password:
+            flash(f"Connexion réussie pour {email}.", "success")
             return redirect(url_for("home"))
         else:
-            print(f"Échec de la connexion pour {username}")
-            abort(401)  
+            flash("Erreur de connexion : mail ou mot de passe incorrect.", "danger")
+            return redirect(url_for("connexion"))
 
-
-    return render_template("connexion.html")
+    return render_template('connexion.html')
 
 
 @app.route("/appareils")

@@ -3,6 +3,19 @@
 {% block title %}Connexion - AstroSite{% endblock %}
 
 {% block content %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} mt-3" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <h2 class="text-center mb-4">Connexion</h2>
     
     <form action="/connexion" method="POST">
